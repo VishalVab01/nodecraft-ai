@@ -43,6 +43,7 @@ Update this file whenever the current phase, active feature, or implementation s
 - AI Generation Compatibility Fix: Updated the retired Gemini 2.5 Flash model identifier in the Trigger.dev design and spec tasks to Gemini 3.6 Flash, which the configured Google API key can access. The application build passes and the local worker rebuilt successfully.
 - Product Rename: Renamed the application to NodeCraft across user-facing UI, AI identity and prompts, package metadata, project documentation, and README setup instructions.
 - Repository Quality: Added contributor and security guidance, a pull-request template, and a GitHub Actions lint workflow. Resolved the existing ESLint failures in the AI sidebar, presence cursors, and Liveblocks metadata configuration. `npm run lint` now passes cleanly.
+- Trigger Production Routing: Added a shared Trigger client configuration used by the AI design/spec routes and their realtime-token routes. It explicitly uses the configured Trigger production environment unless `TRIGGER_PREVIEW_BRANCH` is set, preventing Vercel's Git branch from being incorrectly sent as an unavailable Trigger preview branch.
 
 ## In Progress
 
