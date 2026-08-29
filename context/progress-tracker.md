@@ -42,6 +42,7 @@ Update this file whenever the current phase, active feature, or implementation s
 - Feature 28 (Spec Persistence & Download): ProjectSpec Prisma model added (id, projectId, filePath, createdAt; relation to Project with cascade delete; index on projectId); migration applied and client regenerated. trigger/generate-spec.ts updated to upload generated Markdown to Vercel Blob (specs/{projectId}/{timestamp}.md, private access) and create a ProjectSpec record, returning specId alongside spec. app/api/projects/[projectId]/specs/[specId]/download/route.ts — GET authenticates user, verifies project access via userHasProjectAccess, verifies spec belongs to project, fetches file from Vercel Blob and streams it back as a Markdown attachment (Content-Disposition: attachment). Returns 401/403/404 on error cases. `npm run build` passes clean.
 - AI Generation Compatibility Fix: Updated the retired Gemini 2.5 Flash model identifier in the Trigger.dev design and spec tasks to Gemini 3.6 Flash, which the configured Google API key can access. The application build passes and the local worker rebuilt successfully.
 - Product Rename: Renamed the application to NodeCraft across user-facing UI, AI identity and prompts, package metadata, project documentation, and README setup instructions.
+- Repository Quality: Added contributor and security guidance, a pull-request template, and a GitHub Actions lint workflow. Resolved the existing ESLint failures in the AI sidebar, presence cursors, and Liveblocks metadata configuration. `npm run lint` now passes cleanly.
 
 ## In Progress
 
