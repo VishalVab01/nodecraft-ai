@@ -2,8 +2,11 @@ import { auth } from "@clerk/nextjs/server"
 import { prisma } from "@/lib/prisma"
 import { tasks } from "@trigger.dev/sdk/v3"
 import type { designAgent } from "@/trigger/design-agent"
+import { configureTriggerClient } from "@/lib/trigger"
 
 export async function POST(request: Request) {
+  configureTriggerClient()
+
   const { userId } = await auth()
   if (!userId) return Response.json({ error: "Unauthorized" }, { status: 401 })
 

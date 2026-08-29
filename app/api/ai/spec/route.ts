@@ -2,8 +2,11 @@ import { prisma } from "@/lib/prisma"
 import { tasks } from "@trigger.dev/sdk/v3"
 import { getCurrentProjectIdentity, getAccessibleProject } from "@/lib/project-access"
 import type { generateSpec } from "@/trigger/generate-spec"
+import { configureTriggerClient } from "@/lib/trigger"
 
 export async function POST(request: Request) {
+  configureTriggerClient()
+
   const identity = await getCurrentProjectIdentity()
   if (!identity.userId) return Response.json({ error: "Unauthorized" }, { status: 401 })
 

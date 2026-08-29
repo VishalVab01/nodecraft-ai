@@ -1,8 +1,11 @@
 import { auth } from "@clerk/nextjs/server"
 import { prisma } from "@/lib/prisma"
 import { auth as triggerAuth } from "@trigger.dev/sdk/v3"
+import { configureTriggerClient } from "@/lib/trigger"
 
 export async function POST(request: Request) {
+  configureTriggerClient()
+
   const { userId } = await auth()
   if (!userId) return Response.json({ error: "Unauthorized" }, { status: 401 })
 
