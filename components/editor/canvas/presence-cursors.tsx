@@ -1,16 +1,33 @@
 "use client"
 
-import { useRef } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useOthers } from "@liveblocks/react"
 import { useReactFlow, useViewport } from "@xyflow/react"
 import { Loader2 } from "lucide-react"
 
 export function PresenceCursors() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const [container, setContainer] = useState<HTMLDivElement | null>(null)
+  const [containerBounds, setContainerBounds] = useState<DOMRect | null>(null)
   const others = useOthers()
   const { flowToScreenPosition } = useReactFlow()
   // Subscribe to viewport so cursors reposition on pan/zoom
   useViewport()
+
+  const containerRef = useCallback((element: HTMLDivElement | null) => {
+    setContainer(element)
+  }, [])
+
+  useEffect(() => {
+    if (!container) return
+
+    const updateBounds = () => setContainerBounds(container.getBoundingClientRect())
+    const observer = new ResizeObserver(updateBounds)
+
+    observer.observe(container)
+    updateBounds()
+
+    return () => observer.disconnect()
+  }, [container])
 
   return (
     <div
@@ -19,12 +36,11 @@ export function PresenceCursors() {
     >
       {others.map((other) => {
         const cursor = other.presence.cursor
-        if (!cursor || !containerRef.current) return null
+        if (!cursor || !containerBounds) return null
 
-        const rect = containerRef.current.getBoundingClientRect()
         const screen = flowToScreenPosition(cursor)
-        const x = screen.x - rect.left
-        const y = screen.y - rect.top
+        const x = screen.x - containerBounds.left
+        const y = screen.y - containerBounds.top
         const color = other.info?.color ?? "#888888"
         const name = other.info?.name ?? "Anonymous"
 
