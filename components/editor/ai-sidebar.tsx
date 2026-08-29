@@ -78,7 +78,7 @@ function RunTracker({ runId, publicToken, onTerminal }: RunTrackerProps) {
     if (!(TERMINAL_STATUSES as readonly string[]).includes(run.status)) return
     firedRef.current = true
     onTerminal(run.status, run.output)
-  }, [run?.status, run?.id, onTerminal])
+  }, [run, onTerminal])
 
   return null
 }
@@ -157,12 +157,6 @@ export function AiSidebar({ isOpen, onClose, roomId, projectId }: AiSidebarProps
       .catch(() => setSpecs([]))
       .finally(() => setSpecsLoading(false))
   }, [projectId])
-
-  // Fetch specs when sidebar opens
-  useEffect(() => {
-    if (!isOpen) return
-    fetchSpecs()
-  }, [isOpen, fetchSpecs])
 
   const handleSpecRunTerminal = useCallback(
     (status: string) => {
@@ -555,7 +549,13 @@ export function AiSidebar({ isOpen, onClose, roomId, projectId }: AiSidebarProps
       </div>
 
       {/* Tabs */}
-      <Tabs defaultValue="architect" className="flex min-h-0 flex-1 flex-col overflow-hidden">
+      <Tabs
+        defaultValue="architect"
+        className="flex min-h-0 flex-1 flex-col overflow-hidden"
+        onValueChange={(value) => {
+          if (value === "specs") fetchSpecs()
+        }}
+      >
         <TabsList className="mx-4 mt-3 h-auto shrink-0 rounded-xl bg-bg-subtle p-1">
           <TabsTrigger
             value="architect"
