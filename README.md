@@ -1,10 +1,6 @@
 # NodeCraft
 
-> A personal project by [Vishal Vaibhav](https://github.com/VishalVab01)
-
 NodeCraft is a real-time, AI-powered workspace for designing software systems. Describe an architecture in plain English, let an AI agent turn it into a diagram on a shared canvas, refine it with collaborators, and generate a downloadable Markdown technical specification.
-
-![NodeCraft workspace](public/readme/readme-hero.webp)
 
 ## Highlights
 
