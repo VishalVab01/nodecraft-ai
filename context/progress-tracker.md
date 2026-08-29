@@ -44,6 +44,7 @@ Update this file whenever the current phase, active feature, or implementation s
 - Product Rename: Renamed the application to NodeCraft across user-facing UI, AI identity and prompts, package metadata, project documentation, and README setup instructions.
 - Repository Quality: Added contributor and security guidance, a pull-request template, and a GitHub Actions lint workflow. Resolved the existing ESLint failures in the AI sidebar, presence cursors, and Liveblocks metadata configuration. `npm run lint` now passes cleanly.
 - Trigger Production Routing: Added a shared Trigger client configuration used by the AI design/spec routes and their realtime-token routes. It explicitly uses the configured Trigger production environment unless `TRIGGER_PREVIEW_BRANCH` is set, preventing Vercel's Git branch from being incorrectly sent as an unavailable Trigger preview branch.
+- AI Realtime Failure Handling: The AI sidebar now treats an unavailable Trigger realtime subscription as a failed run, clears its loading state, and displays the standard retry message instead of spinning indefinitely.
 
 ## In Progress
 

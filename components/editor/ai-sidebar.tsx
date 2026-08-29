@@ -70,15 +70,25 @@ interface RunTrackerProps {
 }
 
 function RunTracker({ runId, publicToken, onTerminal }: RunTrackerProps) {
-  const { run } = useRealtimeRun(runId, { accessToken: publicToken })
+  const { run, error } = useRealtimeRun(runId, { accessToken: publicToken })
   const firedRef = useRef(false)
 
   useEffect(() => {
-    if (!run || firedRef.current) return
+    if (firedRef.current) return
+
+    // A failed realtime subscription otherwise leaves the sidebar in its
+    // loading state forever because no terminal run update can arrive.
+    if (error) {
+      firedRef.current = true
+      onTerminal("FAILED", undefined)
+      return
+    }
+
+    if (!run) return
     if (!(TERMINAL_STATUSES as readonly string[]).includes(run.status)) return
     firedRef.current = true
     onTerminal(run.status, run.output)
-  }, [run, onTerminal])
+  }, [run, error, onTerminal])
 
   return null
 }
